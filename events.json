@@ -1,0 +1,114 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Festa de Aniversário da Associação",
+      "date": "2026-05-10",
+      "time": "18:00",
+      "location": "Sede da Associação, Lisboa",
+      "category": "cultural",
+      "description": "Celebração do aniversário da Venezuela Amiga com música ao vivo, gastronomia venezuelana e actividades para toda a família.",
+      "registrationUrl": "https://forms.exemplo.com/festa-aniversario",
+      "status": "open"
+    },
+    {
+      "id": 2,
+      "title": "Torneio de Futebol Comunitário",
+      "date": "2026-05-24",
+      "time": "10:00",
+      "location": "Complexo Desportivo Municipal, Amadora",
+      "category": "desportivo",
+      "description": "Torneio aberto a todos os membros e amigos da comunidade venezuelana. Inscrição por equipas de 5 jogadores.",
+      "registrationUrl": "https://forms.exemplo.com/torneio-futebol",
+      "status": "open"
+    },
+    {
+      "id": 3,
+      "title": "Workshop: Empreendedorismo para Imigrantes",
+      "date": "2026-06-07",
+      "time": "14:00",
+      "location": "Centro Cultural, Lisboa",
+      "category": "educativo",
+      "description": "Workshop prático sobre como abrir negócio em Portugal, com especialistas em direito empresarial e fiscalidade.",
+      "registrationUrl": "https://forms.exemplo.com/workshop-empreendedorismo",
+      "status": "open"
+    },
+    {
+      "id": 4,
+      "title": "Día da Independência da Venezuela",
+      "date": "2026-07-05",
+      "time": "16:00",
+      "location": "Praça do Comércio, Lisboa",
+      "category": "cultural",
+      "description": "Celebração do Dia da Independência com desfile, música, dança e exposição cultural venezuelana.",
+      "registrationUrl": null,
+      "status": "confirmed"
+    },
+    {
+      "id": 5,
+      "title": "Campanha de Recolha de Alimentos",
+      "date": "2026-07-20",
+      "time": "09:00",
+      "location": "Vários pontos em Lisboa e Porto",
+      "category": "social",
+      "description": "Campanha solidária de recolha de alimentos não perecíveis para famílias venezuelanas em situação de vulnerabilidade.",
+      "registrationUrl": "https://forms.exemplo.com/recolha-alimentos",
+      "status": "open"
+    },
+    {
+      "id": 6,
+      "title": "Aulas de Português para Iniciantes",
+      "date": "2026-08-04",
+      "time": "18:30",
+      "location": "Sede da Associação, Lisboa",
+      "category": "educativo",
+      "description": "Curso intensivo de língua portuguesa para recém-chegados. 4 sessões semanais durante o mês de agosto.",
+      "registrationUrl": "https://forms.exemplo.com/aulas-portugues",
+      "status": "open"
+    },
+    {
+      "id": 7,
+      "title": "Arraial da Comunidade Venezuelana",
+      "date": "2026-08-15",
+      "time": "12:00",
+      "location": "Jardim da Estrela, Lisboa",
+      "category": "comunitario",
+      "description": "Arraial com comidas típicas, música ao vivo, actividades para crianças e muita convivialidade. Entrada livre.",
+      "registrationUrl": null,
+      "status": "confirmed"
+    },
+    {
+      "id": 8,
+      "title": "Noite de Cinema Venezuelano",
+      "date": "2026-09-12",
+      "time": "20:00",
+      "location": "Cinema São Jorge, Lisboa",
+      "category": "cultural",
+      "description": "Sessão de cinema com filme venezuelano premiado, seguida de debate com o realizador. Legendas em português.",
+      "registrationUrl": "https://forms.exemplo.com/cinema-venezuelano",
+      "status": "open"
+    },
+    {
+      "id": 9,
+      "title": "Maratona Solidária: Correr por Venezuela",
+      "date": "2026-10-03",
+      "time": "08:00",
+      "location": "Parque das Nações, Lisboa",
+      "category": "desportivo",
+      "description": "Maratona solidária de 5km e 10km para angariação de fundos para projectos educativos na Venezuela.",
+      "registrationUrl": "https://forms.exemplo.com/maratona-solidaria",
+      "status": "open"
+    },
+    {
+      "id": 10,
+      "title": "Festa de Natal da Comunidade",
+      "date": "2026-12-19",
+      "time": "17:00",
+      "location": "Sede da Associação, Lisboa",
+      "category": "comunitario",
+      "description": "Ceia de Natal venezuelana com hallacas, pan de jamón, música e a tradição de celebrar em família. Inscrição obrigatória para controlo de lotação.",
+      "registrationUrl": "https://forms.exemplo.com/festa-natal",
+      "status": "open"
+    }
+  ]
+}
