@@ -159,6 +159,73 @@
         }
     ];
 
+    // Frequency labels
+    const frequencyLabels = {
+        semanal: 'Semanal',
+        quinzenal: 'Quinzenal',
+        mensal: 'Mensual',
+        bimensal: 'Bimensal'
+    };
+
+    // Day labels
+    const dayLabels = {
+        segunda: 'Segunda-feira',
+        terca: 'Terça-feira',
+        quarta: 'Quarta-feira',
+        quinta: 'Quinta-feira',
+        sexta: 'Sexta-feira',
+        sabado: 'Sábado',
+        domingo: 'Domingo'
+    };
+
+    // Embedded recurring activities data
+    const activitiesData = [
+        {
+            "id": 101,
+            "title": "Aulas de Inglês",
+            "subtitle": "Nível Intermedio",
+            "frequency": "semanal",
+            "day": "terca",
+            "time": "20:00 - 21:00",
+            "location": "Sede da Associação, Lisboa",
+            "category": "educativo",
+            "description": "Aulas de inglês para nível intermedio. Material incluído. Ambiente descontraído e prática conversacional."
+        },
+        {
+            "id": 102,
+            "title": "Aulas de Português",
+            "subtitle": "Nível Iniciante",
+            "frequency": "semanal",
+            "day": "quinta",
+            "time": "18:30 - 20:00",
+            "location": "Sede da Associação, Lisboa",
+            "category": "educativo",
+            "description": "Curso de português para recém-chegados. Foco em comunicação do dia a dia, vocabulário prático e integração cultural."
+        },
+        {
+            "id": 103,
+            "title": "Grupo de Futebol",
+            "subtitle": "Aberto a todos",
+            "frequency": "semanal",
+            "day": "sabado",
+            "time": "10:00 - 12:00",
+            "location": "Complexo Desportivo Municipal, Amadora",
+            "category": "desportivo",
+            "description": "Jogo recreativo de futebol aberto a todos os membros da comunidade. Não é necessário inscrição prévia."
+        },
+        {
+            "id": 104,
+            "title": "Noite Cultural Venezuelana",
+            "subtitle": "Música, dança e gastronomia",
+            "frequency": "mensal",
+            "day": "sabado",
+            "time": "19:00 - 23:00",
+            "location": "Sede da Associação, Lisboa",
+            "category": "cultural",
+            "description": "Noite mensal com música ao vivo, dança e pratos típicos venezuelanos. Venha partilhar a nossa cultura com a comunidade."
+        }
+    ];
+
     // Load events (uses embedded data)
     function loadEvents() {
         events = eventsData.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -244,6 +311,48 @@
         emptyState.style.display = 'none';
         filtered.forEach(event => {
             grid.appendChild(createEventCard(event));
+        });
+    }
+
+    // Render recurring activity card
+    function createActivityCard(activity) {
+        const card = document.createElement('article');
+        card.className = 'activity-card';
+
+        card.innerHTML = `
+            <div class="activity-card-header">
+                <span class="activity-frequency ${activity.frequency}">${frequencyLabels[activity.frequency]}</span>
+                <span class="event-category ${activity.category}">${categoryLabels[activity.category]}</span>
+            </div>
+            <h3 class="activity-title">${activity.title}</h3>
+            ${activity.subtitle ? `<p class="activity-subtitle">${activity.subtitle}</p>` : ''}
+            <p class="activity-description">${activity.description}</p>
+            <div class="activity-meta">
+                <div class="activity-meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>${dayLabels[activity.day]}s</span>
+                </div>
+                <div class="activity-meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>${activity.time}</span>
+                </div>
+                <div class="activity-meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>${activity.location}</span>
+                </div>
+            </div>
+        `;
+
+        return card;
+    }
+
+    // Render all recurring activities
+    function renderActivities() {
+        const grid = document.getElementById('activities-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        activitiesData.forEach(activity => {
+            grid.appendChild(createActivityCard(activity));
         });
     }
 
@@ -338,5 +447,6 @@
 
     // Init
     loadEvents();
+    renderActivities();
 
 })();

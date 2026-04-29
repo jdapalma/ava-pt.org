@@ -691,6 +691,133 @@ img {
 }
 
 /* ========================================
+   Activities (Recurring)
+   ======================================== */
+.activities {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.activity-card {
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--yellow));
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.activity-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+}
+
+.activity-card:hover::before {
+    opacity: 1;
+}
+
+.activity-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.activity-frequency {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.activity-frequency::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.activity-frequency.semanal { background: #d1fae5; color: #047857; }
+.activity-frequency.quinzenal { background: #dbeafe; color: #1d4ed8; }
+.activity-frequency.mensal { background: #ede9fe; color: #6d28d9; }
+.activity-frequency.bimensal { background: #fee2e2; color: #dc2626; }
+
+.activity-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.activity-subtitle {
+    font-size: 0.85rem;
+    color: var(--blue);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.activity-description {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    line-height: 1.65;
+    margin-bottom: 20px;
+}
+
+.activity-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.activity-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.activity-meta-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--blue);
+    opacity: 0.6;
+}
+
+/* ========================================
    About
    ======================================== */
 .about {
@@ -996,6 +1123,10 @@ img {
     }
 
     .events-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activities-grid {
         grid-template-columns: 1fr;
     }
 
