@@ -189,7 +189,9 @@
             "time": "20:00 - 21:00",
             "location": "Sede da Associação, Lisboa",
             "category": "educativo",
-            "description": "Aulas de inglês para nível intermedio. Material incluído. Ambiente descontraído e prática conversacional."
+            "description": "Aulas de inglês para nível intermedio. Material incluído. Ambiente descontraído e prática conversacional.",
+            "registrationUrl": "https://forms.exemplo.com/aulas-ingles",
+            "status": "open"
         },
         {
             "id": 102,
@@ -200,7 +202,9 @@
             "time": "18:30 - 20:00",
             "location": "Sede da Associação, Lisboa",
             "category": "educativo",
-            "description": "Curso de português para recém-chegados. Foco em comunicação do dia a dia, vocabulário prático e integração cultural."
+            "description": "Curso de português para recém-chegados. Foco em comunicação do dia a dia, vocabulário prático e integração cultural.",
+            "registrationUrl": "https://forms.exemplo.com/aulas-portugues",
+            "status": "open"
         },
         {
             "id": 103,
@@ -211,7 +215,9 @@
             "time": "10:00 - 12:00",
             "location": "Complexo Desportivo Municipal, Amadora",
             "category": "desportivo",
-            "description": "Jogo recreativo de futebol aberto a todos os membros da comunidade. Não é necessário inscrição prévia."
+            "description": "Jogo recreativo de futebol aberto a todos os membros da comunidade. Não é necessário inscrição prévia.",
+            "registrationUrl": null,
+            "status": "open"
         },
         {
             "id": 104,
@@ -222,7 +228,9 @@
             "time": "19:00 - 23:00",
             "location": "Sede da Associação, Lisboa",
             "category": "cultural",
-            "description": "Noite mensal com música ao vivo, dança e pratos típicos venezuelanos. Venha partilhar a nossa cultura com a comunidade."
+            "description": "Noite mensal com música ao vivo, dança e pratos típicos venezuelanos. Venha partilhar a nossa cultura com a comunidade.",
+            "registrationUrl": null,
+            "status": "confirmed"
         }
     ];
 
@@ -319,6 +327,9 @@
         const card = document.createElement('article');
         card.className = 'activity-card';
 
+        const statusClass = activity.status || 'confirmed';
+        const statusText = statusLabels[statusClass] || 'Confirmado';
+
         card.innerHTML = `
             <div class="activity-card-header">
                 <span class="activity-frequency ${activity.frequency}">${frequencyLabels[activity.frequency]}</span>
@@ -340,6 +351,13 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     <span>${activity.location}</span>
                 </div>
+            </div>
+            <div class="activity-card-footer">
+                <span class="event-status ${statusClass}">${statusText}</span>
+                ${activity.registrationUrl
+                    ? `<a href="${activity.registrationUrl}" target="_blank" rel="noopener noreferrer" class="btn-register">Inscrever-se</a>`
+                    : ''
+                }
             </div>
         `;
 
