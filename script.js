@@ -234,10 +234,93 @@
         }
     ];
 
-    // Load events (uses embedded data)
-    function loadEvents() {
-        events = eventsData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    // Load events (Google Sheets first, fallback to embedded data)
+    async function loadEvents() {
+        const sheetData = await loadFromGoogleSheets();
+        if (sheetData) {
+            // Filtrar solo filas de tipo "evento" (o sin tipo, para compatibilidad)
+            events = sheetData
+                .filter(row => !row.type || row.type === 'evento')
+                .map(row => ({
+                    id: parseInt(row.id) || 0,
+                    title: row.title || '',
+                    date: row.date || '',
+                    time: row.time || '',
+                    location: row.location || '',
+                    category: row.category || 'cultural',
+                    description: row.description || '',
+                    registrationUrl: row.registrationUrl || null,
+                    status: row.status || 'confirmed'
+                })).sort((a, b) => new Date(a.date) - new Date(b.date));
+        } else {
+            events = eventsData.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
         renderEvents();
+    }
+
+    // Parse CSV text into array of objects
+    function parseCSV(csvText) {
+        const lines = csvText.split('\n').filter(line => line.trim());
+        if (lines.length < 2) return [];
+        const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+        const rows = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            for (let j = 0; j < lines[i].length; j++) {
+                const char = lines[i][j];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim());
+            const row = {};
+            headers.forEach((header, index) => {
+                let val = values[index] || '';
+                val = val.replace(/^"|"$/g, '');
+                row[header] = val;
+            });
+            rows.push(row);
+        }
+        return rows;
+    }
+
+    // Fetch data from Google Sheets (published as CSV)
+    async function loadFromGoogleSheets() {
+        const sheetId = window.GOOGLE_SHEET_ID;
+        if (!sheetId || sheetId === 'PEGA_AQUI_EL_ID_DE_TU_HOJA') return null;
+        try {
+            let url;
+            if (sheetId.startsWith('2PACX-')) {
+                // ID de publicación
+                url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/pub?output=csv`;
+            } else {
+                // ID de hoja de cálculo normal
+                url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+            }
+            const response = await fetch(url);
+            if (!response.ok) {
+                console.warn('Google Sheets respondió con error:', response.status);
+                return null;
+            }
+            const csvText = await response.text();
+            if (!csvText || csvText.trim().length === 0) {
+                console.warn('Google Sheets devolvió contenido vacío');
+                return null;
+            }
+            const data = parseCSV(csvText);
+            console.log(`Google Sheets: ${data.length} filas cargadas`);
+            return data.length > 0 ? data : null;
+        } catch (e) {
+            console.warn('No se pudo cargar desde Google Sheets, usando datos locales:', e.message);
+            return null;
+        }
     }
 
     // Filter events
@@ -268,7 +351,9 @@
         card.className = 'event-card';
 
         const statusClass = event.status || 'confirmed';
-        const statusText = statusLabels[statusClass] || 'Confirmado';
+        const statusText = event.status === 'open' && !event.registrationUrl
+            ? statusLabels['confirmed']
+            : (statusLabels[statusClass] || 'Confirmado');
 
         card.innerHTML = `
             <div class="event-card-header">
@@ -328,21 +413,23 @@
         card.className = 'activity-card';
 
         const statusClass = activity.status || 'confirmed';
-        const statusText = statusLabels[statusClass] || 'Confirmado';
+        const statusText = activity.status === 'open' && !activity.registrationUrl
+            ? statusLabels['confirmed']
+            : (statusLabels[statusClass] || 'Confirmado');
 
         card.innerHTML = `
             <div class="activity-card-header">
-                <span class="activity-frequency ${activity.frequency}">${frequencyLabels[activity.frequency]}</span>
+                ${activity.frequency ? `<span class="activity-frequency ${activity.frequency}">${frequencyLabels[activity.frequency]}</span>` : ''}
                 <span class="event-category ${activity.category}">${categoryLabels[activity.category]}</span>
             </div>
             <h3 class="activity-title">${activity.title}</h3>
             ${activity.subtitle ? `<p class="activity-subtitle">${activity.subtitle}</p>` : ''}
             <p class="activity-description">${activity.description}</p>
             <div class="activity-meta">
-                <div class="activity-meta-item">
+                ${activity.day ? `<div class="activity-meta-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     <span>${dayLabels[activity.day]}s</span>
-                </div>
+                </div>` : ''}
                 <div class="activity-meta-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span>${activity.time}</span>
@@ -365,11 +452,33 @@
     }
 
     // Render all recurring activities
-    function renderActivities() {
+    async function renderActivities() {
         const grid = document.getElementById('activities-grid');
         if (!grid) return;
         grid.innerHTML = '';
-        activitiesData.forEach(activity => {
+        const sheetData = await loadFromGoogleSheets();
+        let data;
+        if (sheetData) {
+            // Filtrar solo filas de tipo "actividad"
+            data = sheetData
+                .filter(row => row.type === 'actividad')
+                .map(row => ({
+                    id: parseInt(row.id) || 0,
+                    title: row.title || '',
+                    subtitle: row.subtitle || '',
+                    frequency: row.frequency || '',
+                    day: row.day || '',
+                    time: row.time || '',
+                    location: row.location || '',
+                    category: row.category || 'cultural',
+                    description: row.description || '',
+                    registrationUrl: row.registrationUrl || null,
+                    status: row.status || 'confirmed'
+                }));
+        } else {
+            data = activitiesData;
+        }
+        data.forEach(activity => {
             grid.appendChild(createActivityCard(activity));
         });
     }
