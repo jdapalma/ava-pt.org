@@ -202,6 +202,28 @@ img {
     font-weight: 600;
 }
 
+.portal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white);
+    background: var(--red);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    margin-right: 4px;
+}
+
+.portal-btn:hover {
+    background: #a80823;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(207,10,44,0.25);
+}
+
 /* ========================================
    Hero — 2bcard Style
    ======================================== */
