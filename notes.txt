@@ -1,0 +1,78 @@
+ Soluciones:  
+Opción 1 — Servidor local rápido (recomendado):
+Abre una terminal en la carpeta del proyecto y ejecuta:
+cd "C:\Users\alfonso.bermudez\OneDrive\Documents\Claude Code\venezuela-amiga"
+python -m http.server 8000
+Luego abre http://localhost:8000 en el navegador. 
+
+Valores permitidos: 
+Category: cultural, desportivo, social, educativo, comunitario
+status: open, confirmed, soon.
+frequency: semanal, quinzenal, mensal, bimensal.
+
+================================================================================
+BITÁCORA — 2026-05-05
+================================================================================
+
+1. REDISEÑO ESTILO 2BCARD
+   - Analizamos la landing page de referencia: ava.2bcard.com/351pt
+   - Hero reestructurado de gradiente azul completo → tarjeta centrada con:
+     * Avatar circular con sombra y borde blanco
+     * Nombre y tagline centrados, región "ALGARVE"
+     * 3 botones de acción (WhatsApp, Email, Llamar) estilo pill
+     * 4 card-links de navegación con iconos y flechas
+     * CTA banner con fondo azul
+     * Iconos sociales (Facebook, Instagram, WhatsApp)
+   - CSS reescrito: fondo gris claro (#F5F5F5), tarjetas blancas, sombras suaves,
+     bordes redondeados, botones pill (border-radius: 50px)
+   - Favicon asignado con el logo AVA (ASSOCIAÇÃO VENEZUELA AMIGA (1).png)
+
+2. RESPONSIVE — APROVECHAMIENTO DEL ESPACIO
+   - Container pasa de 480px fijo a escalar: 720px (tablet) → 960px (desktop) → 1120px (large)
+   - Eventos y actividades: 1 col (mobile) → 2 cols (tablet) → 3 cols (desktop)
+   - Contacto: 1 col → 3 cols en tablet+
+   - About: layout de 2 columnas en tablet+ (texto a la izquierda, visual a la derecha)
+   - Filtros se colocan lado a lado en tablet+
+
+3. ESTADÍSTICAS ACTUALIZADAS (sección About)
+   - "Ano de actividades 2026" → "Fundación: 2010"
+   - "Eventos programados 10+" → "Total de Socios: 262"
+   - "Categorias 5" → "Socios Activos: 65"
+
+4. PORTAL DO SÓCIO
+   - Botón rojo con icono de login en el header
+   - Enlaza a: https://v5.quotagest.pt/portal/db/login
+   - Se reposicionó junto al selector de idioma, a la derecha del nav
+
+5. SISTEMA DE IDIOMA ES/PT CON COOKIES
+   - Selector de idioma (ES/PT) en el header, junto al Portal do Sócio
+   - Idioma por defecto: español
+   - Preferencia guardada en cookie "ava_lang" (1 año)
+   - Todos los textos traducidos dinámicamente vía data-i18n
+   - Eventos y actividades con campos bilingües (title_es/pt, desc_es/pt)
+   - Etiquetas de meses, categorías, frecuencias y días traducidos
+
+6. CUMPLIMIENTO GDPR — COOKIES Y PRIVACIDAD
+   - Banner de consentimiento de cookies en la primera visita
+   - Botones Aceptar / Rechazar
+   - Cookie "ava_consent" registra la decisión (1 año)
+   - Modal de Política de Privacidad con:
+     * Responsable y datos de contacto
+     * Cookies utilizadas (ava_lang, ava_consent) y duración
+     * Base legal (Art. 6.1.a y 6.1.f RGPD)
+     * Derechos del usuario (acceso, rectificación, supresión, oposición, portabilidad)
+     * Conservación de datos
+     * Autoridad de control (CNPD Portugal)
+   - Enlaces en footer: Política de Privacidad + Configurar Cookies
+   - Normativa: RGPD + Lei n.º 58/2019 (Portugal)
+
+7. CACHE-BUSTING AUTOMÁTICO
+   - Meta tags Cache-Control: no-cache, no-store, must-revalidate
+   - Script inline reemplaza CSS/JS con timestamp único en cada visita
+   - Ya no es necesario limpiar cache manualmente para ver cambios
+
+COMMITS REALIZADOS:
+   - 28c34ab  Rediseño estilo 2bcard + responsive desktop + stats actualizadas
+   - 56ace51  Agregar botón Portal do Sócio en header
+   - 8077c16  i18n ES/PT, selector idioma, cookies GDPR, portal reubicado
+   - 4520378  Cache-busting automático: CSS/JS recargan en cada visita
