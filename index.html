@@ -13,6 +13,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
         rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -322,8 +325,23 @@
 
     <script>
         window.GOOGLE_SHEET_ID = '2PACX-1vTD7Jc16HYS6j_4jH5WrJPLlNJ1kkVt3uGfT28O-PIeRpCHNsqR8-UK933_j7i43Ejb8pgIb-0U6s8L';
+        // Cache-busting: force fresh load of CSS and JS on each visit
+        (function() {
+            var v = '?v=' + Date.now();
+            // Remove original CSS link and re-add with cache-bust
+            var oldLink = document.querySelector('link[href*="styles.css"]');
+            if (oldLink) {
+                var newLink = document.createElement('link');
+                newLink.rel = 'stylesheet';
+                newLink.href = 'styles.css' + v;
+                oldLink.parentNode.replaceChild(newLink, oldLink);
+            }
+            // Load JS with cache-bust
+            var s = document.createElement('script');
+            s.src = 'script.js' + v;
+            document.body.appendChild(s);
+        })();
     </script>
-    <script src="script.js"></script>
 </body>
 
 </html>
